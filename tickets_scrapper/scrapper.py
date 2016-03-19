@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import pickle
 import smtplib
 import pickle
@@ -12,7 +13,9 @@ SITES = [
 ]
 
 DB_PATH = "links"
-BROWSER_PATH = "phantomjs-2.1.1-linux-x86_64/bin/phantomjs"
+FULL_FILE_PATH = os.path.realpath(__file__)
+PATH, FILENAME = os.path.split(FULL_FILE_PATH)
+BROWSER_PATH = PATH + "/phantomjs-2.1.1-linux-x86_64/bin/phantomjs"
 
 class TicketScrapper(object):
     def __init__(self):
@@ -45,9 +48,9 @@ if __name__ == '__main__':
     links = scrapper.scrape()
 
     if links:
-    	msg = 'Subject: %s\n\n' % "Fresh fly tickets"
-    	for link in links:
-    	    msg += str(link) + '\n'
+        msg = 'Subject: %s\n\n' % "Fresh fly tickets"
+        for link in links:
+            msg += str(link) + '\n'
         print(msg)
         s = smtplib.SMTP('relay.fi.muni.cz')
         s.sendmail('tomas.marton22@gmail.com',['tomas.marton22@gmail.com'], msg)

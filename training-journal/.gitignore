@@ -1,0 +1,15 @@
+/target
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.db
+
+#######################
+# Idea
+#######################
+.idea/
+node_modules/
+src/main/webapp/lib/
+*.iml

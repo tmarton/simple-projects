@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!-- Declares the root element that allows behaviour to be modified through Angular custom HTML tags. -->
+<html ng-app="trainingJournal">
+<head>
+    <title>javaee7-angular</title>
+
+    <!-- build:css css/third-party.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="lib/bower/angular-grid/ng-grid.css" />
+    <link rel="stylesheet" href="lib/bower/bootstrap-css-only/css/bootstrap.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- endinject -->
+
+    <!-- build:css css/application.css -->
+    <!-- endbuild -->
+
+    <!-- build:js lib/third-party.js -->
+    <!-- bower:js -->
+    <script src="lib/bower/jquery/dist/jquery.js"></script>
+    <script src="lib/bower/angular/angular.js"></script>
+    <script src="lib/bower/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="lib/bower/angular-grid/build/ng-grid.js"></script>
+    <script src="lib/bower/angular-jwt/dist/angular-jwt.js"></script>
+    <script src="lib/bower/angular-resource/angular-resource.js"></script>
+    <script src="lib/bower/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="lib/bower/angular-utils-ui-breadcrumbs/uiBreadcrumbs.js"></script>
+    <script src="lib/bower/angular-websocket/angular-websocket.min.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- inject:js -->
+    <script src="script/app.js"></script>
+    <script src="script/controllers.js"></script>
+    <script src="script/services.js"></script>
+    <!-- endinject -->
+
+    <meta charset="UTF-8">
+</head>
+
+<body ng-cloak>
+<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container" ng-controller="headerController" >
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#/">Beer database</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li ui-sref-active="active"><a ui-sref="beers.list">Seznam piv</a></li>
+                <li ui-sref-active="active"><a ui-sref="auth">Auth info</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li auth-is-not-authenticated>
+                    <button type="button" ng-click="loginModal()" class="btn btn-success navbar-btn">Přihlásit se</button>
+                </li>
+                <li auth-is-authenticated class="active">
+                    <a auth-user-name></a>
+                </li>
+                <li auth-is-authenticated>
+                    <button type="button" auth-logout-link class="btn btn-info navbar-btn">Odhlásit se</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <!-- Specify a Angular controller script that binds Javascript variables to the feedback messages.-->
+    <div class="message" ng-controller="alertMessagesController">
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
+    <div ui-view></div>
+</div>
+<div class="container">
+
+
+    <!-- /.container -->
+</div>
+
+</body>
+</html>

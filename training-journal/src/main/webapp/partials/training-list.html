@@ -1,0 +1,97 @@
+<!-- Specify a Angular controller script that binds Javascript variables to the grid.-->
+<div class="grid" ng-controller="trainingListController">
+    <div>
+        <h3>List Trainings</h3>
+    </div>
+
+    <!-- Binds the grid component to be displayed. -->
+    <div class="gridStyle" ng-grid="gridOptions"></div>
+
+    <!--  Bind the pagination component to be displayed. -->
+    <pagination direction-links="true" boundary-links="true"
+                total-items="pagingOptions.totalItem" items-per-page="pagingOptions.pageSize"
+                ng-model="pagingOptions.currentPage" ng-change="refreshGrid()">
+    </pagination>
+</div>
+
+<!-- Specify a Angular controller script that binds Javascript variables to the form.-->
+<div class="form" ng-controller="trainingFormController">
+    <!-- Verify training, if there is no id present, that we are Adding a Training -->
+    <div ng-if="training.id == null">
+        <h3>Add Training</h3>
+    </div>
+    <!-- Otherwise it's an Edit -->
+    <div ng-if="training.id != null">
+        <h3>Edit Training</h3>
+    </div>
+
+    <div>
+        <!-- Specify the function to be called on submit and disable HTML5 validation, since we're using Angular validation-->
+        <form name="trainingForm" ng-submit="updateTraining()" novalidate>
+
+            <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
+            <div class="form-group" ng-class="{'has-error' : trainingForm.name.$invalid && trainingForm.name.$dirty}">
+                <label for="name">Name:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : trainingForm.name.$valid && trainingForm.name.$dirty}"></span>
+
+                <input id="name" name="Name" type="text" class="form-control" maxlength="50"
+                       ng-model="training.name"
+                       required ng-minlength="2" ng-maxlength="50"/>
+
+
+                <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                <p class="help-block" ng-show="trainingForm.name.$error.required">Add name.</p>
+
+                <p class="help-block" ng-show="trainingForm.firstName.$error.minlength">Name must be at least 2
+                    characters long.</p>
+
+                <p class="help-block" ng-show="trainingForm.firstName.$error.maxlength">Name cannot be longer
+                    than 50 characters.</p>
+            </div>
+
+            <accordion>
+                <accordion-group
+                        ng-repeat="ts in training.sections">
+                    <accordion-heading>
+                        {{ts.type}}
+                        <span class="pull-right glyphicon glyphicon-remove remove"
+                           ng-click="removeSection(ts)"></span>
+                    </accordion-heading>
+                    <div class="accordion-form-row">
+                        <input id="repetitions" name="Repetitions" type="number" class="form-control" maxlength="50"
+                               ng-model="exercise.repetitions" required />
+                        <span class="pull-right glyphicon glyphicon-ok"
+                              ng-click="addExcercise(ts, exercise)"></span>
+                        <input id="exerciseName" name="Name" type="text" class="form-control" maxlength="50"
+                               ng-model="exercise.name"
+                               required ng-minlength="2" ng-maxlength="50"/>
+                    </div>
+                    <div ng-repeat="ex in ts.exercises" class="accordion-row">
+                        {{ex.repetitions}}x {{ex.name}}
+                        <span class="pull-right glyphicon glyphicon-remove remove"
+                           ng-click="removeExcercise(ts, ex)"></span>
+                    </div>
+                </accordion-group>
+            </accordion>
+
+            <!-- Single button -->
+            <div class="btn-group" dropdown is-open="status.isopen">
+                <button id="single-button" type="button" class="btn btn-primary" dropdown-toggle ng-disabled="disabled">
+                    Pridaj sekciu <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
+                    <li ng-repeat="type in sectionTypes" role="menuitem">
+                        <a ng-click="addSection(type.key)">{{type.value}}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
+            <div class="buttons">
+                <button type="button" class="btn btn-primary" ng-click="clearForm()">Clear</button>
+                <button type="submit" class="btn btn-primary" ng-disabled="personForm.$invalid">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

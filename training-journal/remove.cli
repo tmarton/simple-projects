@@ -1,0 +1,15 @@
+connect
+batch
+
+undeploy training-journal.war
+
+data-source remove --name=tjournal
+
+/subsystem=datasources/jdbc-driver=postgres:remove
+
+#module remove --name=org.postgres
+
+run-batch
+:reload
+
+

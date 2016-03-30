@@ -1,0 +1,27 @@
+connect
+batch
+
+#install jdbc jar for postgres
+module add --name=org.postgres --resources=/home/tmarton/Documents/jboss-presentation/jdbc-postgresql.jar --dependencies=javax.api,javax.transaction.api
+
+#add postgres jdbc driver
+/subsystem=datasources/jdbc-driver=postgres:add( \
+    driver-name="postgres",\
+    driver-module-name="org.postgres",\
+    driver-class-name=org.postgresql.Driver\
+)
+
+#add data-source
+data-source add \
+    --jndi-name=java:jboss/datasources/tjournal \
+    --name=tjournal \
+    --connection-url=jdbc:postgresql://localhost:5432/tjournal \
+    --driver-name=postgres \
+    --user-name=tmarton \
+    --password=postgres
+
+run-batch
+:reload
+
+
+deploy /home/tmarton/Documents/jboss-presentation/training-journal.war --force

@@ -1,0 +1,21 @@
+{
+  "name": "training-journal",
+  "version": "1.0.0",
+  "authors": [
+    "Tomas Marton <tomas.marton22@gmail.com>"
+  ],
+  "description": "pv243 project",
+  "private": true,
+  "dependencies": {
+    "angular": "1.4.x",
+    "angular-bootstrap": "~0.13.0",
+    "angular-grid": "~2.0.11",
+    "angular-jwt": "~0.0.6",
+    "angular-resource": "~1.4.0",
+    "angular-ui-router": "ui-router#~0.2.15",
+    "angular-utils-ui-breadcrumbs": "~0.2.1",
+    "angular-websocket": "~1.0.13",
+    "bootstrap-css-only": "~3.3.0",
+    "jquery": "~2.1.1"
+  }
+}

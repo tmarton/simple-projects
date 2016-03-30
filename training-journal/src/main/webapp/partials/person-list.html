@@ -1,0 +1,80 @@
+<!-- Specify a Angular controller script that binds Javascript variables to the grid.-->
+<div class="grid" ng-controller="personListController">
+    <div>
+        <h3>List Persons</h3>
+    </div>
+
+    <!-- Binds the grid component to be displayed. -->
+    <div class="gridStyle" ng-grid="gridOptions"></div>
+
+    <!--  Bind the pagination component to be displayed. -->
+    <pagination direction-links="true" boundary-links="true"
+                total-items="pagingOptions.totalItem" items-per-page="pagingOptions.pageSize"
+                ng-model="pagingOptions.currentPage" ng-change="refreshGrid()">
+    </pagination>
+</div>
+
+<!-- Specify a Angular controller script that binds Javascript variables to the form.-->
+<div class="form" ng-controller="personsFormController">
+    <!-- Verify person, if there is no id present, that we are Adding a Person -->
+    <div ng-if="person.id == null">
+        <h3>Add Person</h3>
+    </div>
+    <!-- Otherwise it's an Edit -->
+    <div ng-if="person.id != null">
+        <h3>Edit Person</h3>
+    </div>
+
+    <div>
+        <!-- Specify the function to be called on submit and disable HTML5 validation, since we're using Angular validation-->
+        <form name="personForm" ng-submit="updatePerson()" novalidate>
+
+            <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
+            <div class="form-group" ng-class="{'has-error' : personForm.name.$invalid && personForm.name.$dirty}">
+                <label for="firstName">FirstName:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : personForm.firstName.$valid && personForm.firstName.$dirty}"></span>
+
+                <input id="firstName" name="firstName" type="text" class="form-control" maxlength="50"
+                       ng-model="person.firstName"
+                       required ng-minlength="2" ng-maxlength="50"/>
+
+                <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                <p class="help-block" ng-show="personForm.firstName.$error.required">Add firstName.</p>
+
+                <p class="help-block" ng-show="personForm.firstName.$error.minlength">FirstName must be at least 2
+                    characters long.</p>
+
+                <p class="help-block" ng-show="personForm.firstName.$error.maxlength">FirstName cannot be longer
+                    than 50 characters.</p>
+            </div>
+
+            <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
+            <div class="form-group"
+                 ng-class="{'has-error' : personForm.lastName.$invalid && personForm.lastName.$dirty}">
+                <label for="lastName">lastName:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : personForm.lastName.$valid && personForm.lastName.$dirty}"></span>
+
+                <input id="lastName" name="lastName" type="text" class="form-control" maxlength="100"
+                       ng-model="person.lastName"
+                       required ng-minlength="5" ng-maxlength="100"/>
+
+                <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                <p class="help-block" ng-show="personForm.lastName.$error.required">Add lastName.</p>
+
+                <p class="help-block" ng-show="personForm.lastName.$error.minlength">LastName must be at least 5
+                    characters long.</p>
+
+                <p class="help-block" ng-show="personForm.lastName.$error.maxlength">LastName cannot be longer than
+                    100 characters.</p>
+            </div>
+
+            <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
+            <div class="buttons">
+                <button type="button" class="btn btn-primary" ng-click="clearForm()">Clear</button>
+                <button type="submit" class="btn btn-primary" ng-disabled="personForm.$invalid">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
